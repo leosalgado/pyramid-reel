@@ -3,8 +3,10 @@ package com.pyramidreel.api.model;
 import com.pyramidreel.api.model.user.User;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
-public class Review {
+public class WatchedMovieItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,36 +20,23 @@ public class Review {
     @JoinColumn(name = "movie_id")
     private Movie movie;
 
-    private String text;
+    private LocalDateTime watchedAt;
     private int rating;
+    private boolean rewatch;
 
-    protected Review() {
+    protected WatchedMovieItem() {
     }
 
-    public Review(User user, Movie movie, String text, int rating) {
-        this.user = user;
+    public WatchedMovieItem(User user, Movie movie) {
         this.movie = movie;
-        this.text = text;
-        this.rating = rating;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public User getUser() {
-        return user;
+        this.watchedAt = LocalDateTime.now();
     }
 
     public Movie getMovie() {
         return movie;
     }
 
-    public String getText() {
-        return text;
-    }
-
-    public int getRating() {
-        return rating;
+    public LocalDateTime getWatchedAt() {
+        return watchedAt;
     }
 }
