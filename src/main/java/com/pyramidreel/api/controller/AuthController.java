@@ -5,12 +5,11 @@ import com.pyramidreel.api.model.user.AuthDTO;
 import com.pyramidreel.api.model.user.LoginResponseDTO;
 import com.pyramidreel.api.model.user.RegisterDTO;
 import com.pyramidreel.api.model.user.User;
-import com.pyramidreel.api.repository.UserRepository;
+import com.pyramidreel.api.service.AuthBusinessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,10 +23,10 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserRepository repository;
+    private TokenService tokenService;
 
     @Autowired
-    private TokenService tokenService;
+    private AuthBusinessService authBusinessService;
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Validated AuthDTO data) {
@@ -40,13 +39,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody @Validated RegisterDTO data) {
-        if (this.repository.findByUsername(data.username()) != null) return ResponseEntity.badRequest().build();
-
-        String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
-        User newUser = new User(data.username(), encryptedPassword, data.role());
-
-        this.repository.save(newUser);
-
+        authBusinessService.register(data);
         return ResponseEntity.ok().build();
     }
 
