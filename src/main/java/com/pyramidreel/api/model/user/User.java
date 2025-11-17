@@ -6,6 +6,9 @@ import com.pyramidreel.api.model.Review;
 import com.pyramidreel.api.model.WatchedMovieItem;
 import com.pyramidreel.api.model.WatchlistItem;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +18,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
+@Getter
+@Setter
+@NoArgsConstructor
 public class User implements UserDetails {
 
     @Id
@@ -39,9 +45,6 @@ public class User implements UserDetails {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<WatchlistItem> watchlist;
-
-    protected User() {
-    }
 
     public User(String username, String password, UserRole role) {
         this.username = username;
@@ -69,14 +72,6 @@ public class User implements UserDetails {
         reviews.add(new Review(this, movie, text, rating));
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (this.role == UserRole.ADMIN) {
@@ -91,10 +86,6 @@ public class User implements UserDetails {
     @Override
     public String getPassword() {
         return password;
-    }
-
-    public String getUsername() {
-        return username;
     }
 
     @Override
@@ -119,37 +110,5 @@ public class User implements UserDetails {
     public boolean isEnabled() {
 //        return UserDetails.super.isEnabled();
         return true;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setRole(UserRole role) {
-        this.role = role;
-    }
-
-    public List<Review> getReviews() {
-        return reviews;
-    }
-
-    public void setReviews(List<Review> reviews) {
-        this.reviews = reviews;
-    }
-
-    public List<User> getFriends() {
-        return friends;
-    }
-
-    public void setFriends(List<User> friends) {
-        this.friends = friends;
-    }
-
-    public List<WatchedMovieItem> getWatchedMovies() {
-        return watchedMovies;
-    }
-
-    public List<WatchlistItem> getWatchlist() {
-        return watchlist;
     }
 }

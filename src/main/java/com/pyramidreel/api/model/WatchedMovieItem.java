@@ -2,10 +2,16 @@ package com.pyramidreel.api.model;
 
 import com.pyramidreel.api.model.user.User;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 public class WatchedMovieItem {
 
     @Id
@@ -24,24 +30,9 @@ public class WatchedMovieItem {
     private int rating;
     private boolean rewatch;
 
-    protected WatchedMovieItem() {
-    }
-
     public WatchedMovieItem(User user, Movie movie) {
         this.user = user;
         this.movie = movie;
         this.watchedAt = LocalDateTime.now();
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public Movie getMovie() {
-        return movie;
-    }
-
-    public LocalDateTime getWatchedAt() {
-        return watchedAt;
     }
 }
