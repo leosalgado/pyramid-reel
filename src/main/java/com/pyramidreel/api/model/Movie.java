@@ -1,11 +1,9 @@
 package com.pyramidreel.api.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 public class Movie {
@@ -14,15 +12,24 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String title;
     private LocalDate releaseDate;
     private Double averageRating;
+
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews;
+
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<WatchedMovieItem> watchedByUsers;
+
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<WatchlistItem> inUsersWatchlist;
 
     protected Movie() {
     }
 
-    public Movie(String name, LocalDate releaseDate) {
-        this.name = name;
+    public Movie(String title, LocalDate releaseDate) {
+        this.title = title;
         this.releaseDate = releaseDate;
     }
 
@@ -30,8 +37,8 @@ public class Movie {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
     public LocalDate getReleaseDate() {

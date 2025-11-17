@@ -28,8 +28,13 @@ public class WatchedMovieItem {
     }
 
     public WatchedMovieItem(User user, Movie movie) {
+        this.user = user;
         this.movie = movie;
         this.watchedAt = LocalDateTime.now();
+    }
+
+    public User getUser() {
+        return user;
     }
 
     public Movie getMovie() {

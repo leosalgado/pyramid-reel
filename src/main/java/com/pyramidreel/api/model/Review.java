@@ -3,6 +3,8 @@ package com.pyramidreel.api.model;
 import com.pyramidreel.api.model.user.User;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 @Entity
 public class Review {
 
@@ -20,6 +22,7 @@ public class Review {
 
     private String text;
     private int rating;
+    private LocalDate reviewedAt;
 
     protected Review() {
     }
@@ -29,6 +32,7 @@ public class Review {
         this.movie = movie;
         this.text = text;
         this.rating = rating;
+        this.reviewedAt = LocalDate.now();
     }
 
     public Long getId() {
@@ -49,5 +53,9 @@ public class Review {
 
     public int getRating() {
         return rating;
+    }
+
+    public LocalDate getReviewedAt() {
+        return reviewedAt;
     }
 }

@@ -1,6 +1,10 @@
 package com.pyramidreel.api.model.user;
 
 
+import com.pyramidreel.api.model.Movie;
+import com.pyramidreel.api.model.Review;
+import com.pyramidreel.api.model.WatchedMovieItem;
+import com.pyramidreel.api.model.WatchlistItem;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,17 +27,18 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-//    private List<Review> reviews;
-//
-//    @ManyToMany
-//    private List<User> friends;
-//
-//    @OneToMany(cascade = CascadeType.ALL)
-//    private List<WatchedMovieItem> watchedMovies;
-//
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-//    private List<WatchlistItem> watchlist;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Review> reviews;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_friends", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "friend_id"))
+    private List<User> friends;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<WatchedMovieItem> watchedMovies;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<WatchlistItem> watchlist;
 
     protected User() {
     }
@@ -44,25 +49,25 @@ public class User implements UserDetails {
         this.role = role;
     }
 
-//    public void addToWatchlist(Movie movie) {
-//        boolean alreadyInWatchlist = watchlist.stream().anyMatch(item -> item.getMovie().equals(movie));
-//        boolean alreadyWatched = watchedMovies.stream().anyMatch(item -> item.getMovie().equals(movie));
-//
-//        if (!alreadyInWatchlist && !alreadyWatched) {
-//            watchlist.add(new WatchlistItem(this, movie));
-//        }
-//
-//    }
-//
-//    public void markAsWatched(Movie movie) {
-//        watchlist.removeIf(item -> item.getMovie().equals(movie));
-//
-//        watchedMovies.add(new WatchedMovieItem(this, movie));
-//    }
-//
-//    public void addReview(Movie movie, String text, int rating) {
-//        reviews.add(new Review(this, movie, text, rating));
-//    }
+    public void addToWatchlist(Movie movie) {
+        boolean alreadyInWatchlist = watchlist.stream().anyMatch(item -> item.getMovie().equals(movie));
+        boolean alreadyWatched = watchedMovies.stream().anyMatch(item -> item.getMovie().equals(movie));
+
+        if (!alreadyInWatchlist && !alreadyWatched) {
+            watchlist.add(new WatchlistItem(this, movie));
+        }
+
+    }
+
+    public void markAsWatched(Movie movie) {
+        watchlist.removeIf(item -> item.getMovie().equals(movie));
+
+        watchedMovies.add(new WatchedMovieItem(this, movie));
+    }
+
+    public void addReview(Movie movie, String text, int rating) {
+        reviews.add(new Review(this, movie, text, rating));
+    }
 
     public Long getId() {
         return id;
@@ -124,27 +129,27 @@ public class User implements UserDetails {
         this.role = role;
     }
 
-//    public List<Review> getReviews() {
-//        return reviews;
-//    }
-//
-//    public void setReviews(List<Review> reviews) {
-//        this.reviews = reviews;
-//    }
-//
-//    public List<User> getFriends() {
-//        return friends;
-//    }
-//
-//    public void setFriends(List<User> friends) {
-//        this.friends = friends;
-//    }
-//
-//    public List<WatchedMovieItem> getWatchedMovies() {
-//        return watchedMovies;
-//    }
-//
-//    public List<WatchlistItem> getWatchlist() {
-//        return watchlist;
-//    }
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+
+    public List<User> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(List<User> friends) {
+        this.friends = friends;
+    }
+
+    public List<WatchedMovieItem> getWatchedMovies() {
+        return watchedMovies;
+    }
+
+    public List<WatchlistItem> getWatchlist() {
+        return watchlist;
+    }
 }

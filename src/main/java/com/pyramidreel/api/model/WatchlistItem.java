@@ -20,18 +20,24 @@ public class WatchlistItem {
     @JoinColumn(name = "movie_id")
     private Movie movie;
 
+    @Column(name = "date_added")
     private LocalDateTime dateAdded;
 
     protected WatchlistItem() {
     }
 
     public WatchlistItem(User user, Movie movie) {
+        this.user = user;
         this.movie = movie;
         this.dateAdded = LocalDateTime.now();
     }
 
     public Movie getMovie() {
         return movie;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     public LocalDateTime getDateAdded() {
