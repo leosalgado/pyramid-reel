@@ -1,4 +1,4 @@
-package com.pyramidreel.api.model.user;
+package com.pyramidreel.api.dto.user;
 
 public record LoginResponseDTO(String token) {
 }

@@ -1,8 +1,8 @@
 package com.pyramidreel.api.controller;
 
-import com.pyramidreel.api.model.user.AuthDTO;
-import com.pyramidreel.api.model.user.LoginResponseDTO;
-import com.pyramidreel.api.model.user.RegisterDTO;
+import com.pyramidreel.api.dto.user.AuthDTO;
+import com.pyramidreel.api.dto.user.LoginResponseDTO;
+import com.pyramidreel.api.dto.user.RegisterDTO;
 import com.pyramidreel.api.service.AuthBusinessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

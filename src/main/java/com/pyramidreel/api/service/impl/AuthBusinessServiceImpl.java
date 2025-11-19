@@ -1,8 +1,8 @@
 package com.pyramidreel.api.service.impl;
 
 import com.pyramidreel.api.infra.security.TokenService;
-import com.pyramidreel.api.model.user.AuthDTO;
-import com.pyramidreel.api.model.user.RegisterDTO;
+import com.pyramidreel.api.dto.user.AuthDTO;
+import com.pyramidreel.api.dto.user.RegisterDTO;
 import com.pyramidreel.api.model.user.User;
 import com.pyramidreel.api.repository.UserRepository;
 import com.pyramidreel.api.service.AuthBusinessService;
