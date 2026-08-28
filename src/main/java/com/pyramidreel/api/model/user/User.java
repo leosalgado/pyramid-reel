@@ -2,8 +2,7 @@ package com.pyramidreel.api.model.user;
 
 
 import com.pyramidreel.api.model.Movie;
-import com.pyramidreel.api.model.Review;
-import com.pyramidreel.api.model.WatchedMovieItem;
+import com.pyramidreel.api.model.DiaryEntry;
 import com.pyramidreel.api.model.WatchlistItem;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -13,6 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -33,15 +33,19 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private List<Review> reviews;
+    @ManyToMany
+    @JoinTable(
+            name = "follows",
+            joinColumns = @JoinColumn(name = "follower_id"),
+            inverseJoinColumns = @JoinColumn(name = "followed_id")
+    )
+    private List<User> following = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "user_friends", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "friend_id"))
-    private List<User> friends;
+    @ManyToMany(mappedBy = "following")
+    private List<User> followers = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private List<WatchedMovieItem> watchedMovies;
+    private List<DiaryEntry> watchedMovies;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<WatchlistItem> watchlist;
@@ -65,11 +69,7 @@ public class User implements UserDetails {
     public void markAsWatched(Movie movie) {
         watchlist.removeIf(item -> item.getMovie().equals(movie));
 
-        watchedMovies.add(new WatchedMovieItem(this, movie));
-    }
-
-    public void addReview(Movie movie, String text, int rating) {
-        reviews.add(new Review(this, movie, text, rating));
+        watchedMovies.add(new DiaryEntry(this, movie));
     }
 
     @Override
@@ -86,6 +86,11 @@ public class User implements UserDetails {
     @Override
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
     }
 
     @Override

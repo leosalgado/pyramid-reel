@@ -1,6 +1,5 @@
 package com.pyramidreel.api.model;
 
-import com.pyramidreel.api.model.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,23 +17,14 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @OneToOne
+    @JoinColumn(name = "diary_entry_id")
+    private DiaryEntry diaryEntry;
 
-    @ManyToOne
-    @JoinColumn(name = "movie_id")
-    private Movie movie;
+    private String review;
 
-    private String text;
-    private int rating;
-    private LocalDate reviewedAt;
-
-    public Review(User user, Movie movie, String text, int rating) {
-        this.user = user;
-        this.movie = movie;
-        this.text = text;
-        this.rating = rating;
-        this.reviewedAt = LocalDate.now();
+    public Review(DiaryEntry diaryEntry, String review) {
+        this.diaryEntry = diaryEntry;
+        this.review = review;
     }
 }

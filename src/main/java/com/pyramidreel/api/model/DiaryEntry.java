@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-public class WatchedMovieItem {
+public class DiaryEntry {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,13 +26,20 @@ public class WatchedMovieItem {
     @JoinColumn(name = "movie_id")
     private Movie movie;
 
+    @OneToOne(mappedBy = "diaryEntry", cascade = CascadeType.ALL)
+    private Review review;
+
     private LocalDateTime watchedAt;
-    private int rating;
+    private Integer rating;
     private boolean rewatch;
 
-    public WatchedMovieItem(User user, Movie movie) {
+    public DiaryEntry(User user, Movie movie) {
         this.user = user;
         this.movie = movie;
         this.watchedAt = LocalDateTime.now();
+    }
+
+    public void addReview(String text) {
+        this.review = new Review(this, text);
     }
 }
