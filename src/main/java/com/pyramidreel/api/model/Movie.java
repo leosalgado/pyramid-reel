@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -22,17 +24,14 @@ public class Movie {
     private LocalDate releaseDate;
     private Double averageRating;
 
-    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Review> reviews;
+    @Column(columnDefinition = "jsonb")
+    @JdbcTypeCode(SqlTypes.JSON)
+    private MovieDetails details;
 
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<WatchedMovieItem> watchedByUsers;
+    private List<DiaryEntry> watchedByUsers;
 
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WatchlistItem> inUsersWatchlist;
 
-    public Movie(String title, LocalDate releaseDate) {
-        this.title = title;
-        this.releaseDate = releaseDate;
-    }
 }
