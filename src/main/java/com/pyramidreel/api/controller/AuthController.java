@@ -4,7 +4,6 @@ import com.pyramidreel.api.dto.user.AuthDTO;
 import com.pyramidreel.api.dto.user.LoginResponseDTO;
 import com.pyramidreel.api.dto.user.RegisterDTO;
 import com.pyramidreel.api.service.AuthBusinessService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,8 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("auth")
 public class AuthController {
 
-    @Autowired
-    private AuthBusinessService authBusinessService;
+    private final AuthBusinessService authBusinessService;
+
+    public AuthController(AuthBusinessService authBusinessService) {
+        this.authBusinessService = authBusinessService;
+    }
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Validated AuthDTO data) {
