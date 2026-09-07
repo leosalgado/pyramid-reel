@@ -1,7 +1,6 @@
 package com.pyramidreel.api.model.user;
 
 
-import com.pyramidreel.api.model.Movie;
 import com.pyramidreel.api.model.DiaryEntry;
 import com.pyramidreel.api.model.WatchlistItem;
 import jakarta.persistence.*;
@@ -56,21 +55,21 @@ public class User implements UserDetails {
         this.role = role;
     }
 
-    public void addToWatchlist(Movie movie) {
-        boolean alreadyInWatchlist = watchlist.stream().anyMatch(item -> item.getMovie().equals(movie));
-        boolean alreadyWatched = watchedMovies.stream().anyMatch(item -> item.getMovie().equals(movie));
+//    public void addToWatchlist(Movie movie) {
+//        boolean alreadyInWatchlist = watchlist.stream().anyMatch(item -> item.getMovie().equals(movie));
+//        boolean alreadyWatched = watchedMovies.stream().anyMatch(item -> item.getMovie().equals(movie));
+//
+//        if (!alreadyInWatchlist && !alreadyWatched) {
+//            watchlist.add(new WatchlistItem(this, movie));
+//        }
+//
+//    }
 
-        if (!alreadyInWatchlist && !alreadyWatched) {
-            watchlist.add(new WatchlistItem(this, movie));
-        }
-
-    }
-
-    public void markAsWatched(Movie movie) {
-        watchlist.removeIf(item -> item.getMovie().equals(movie));
-
-        watchedMovies.add(new DiaryEntry(this, movie));
-    }
+//    public void markAsWatched(Movie movie) {
+//        watchlist.removeIf(item -> item.getMovie().equals(movie));
+//
+//        watchedMovies.add(new DiaryEntry(this, movie));
+//    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
