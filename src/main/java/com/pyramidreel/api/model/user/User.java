@@ -4,9 +4,6 @@ package com.pyramidreel.api.model.user;
 import com.pyramidreel.api.model.DiaryEntry;
 import com.pyramidreel.api.model.WatchlistItem;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,9 +14,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
-@Getter
-@Setter
-@NoArgsConstructor
 public class User implements UserDetails {
 
     @Id
@@ -48,6 +42,9 @@ public class User implements UserDetails {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<WatchlistItem> watchlist;
+
+    protected User() {
+    }
 
     public User(String username, String password, UserRole role) {
         this.username = username;
@@ -114,5 +111,61 @@ public class User implements UserDetails {
     public boolean isEnabled() {
 //        return UserDetails.super.isEnabled();
         return true;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
+
+    public List<User> getFollowing() {
+        return following;
+    }
+
+    public void setFollowing(List<User> following) {
+        this.following = following;
+    }
+
+    public List<User> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(List<User> followers) {
+        this.followers = followers;
+    }
+
+    public List<DiaryEntry> getWatchedMovies() {
+        return watchedMovies;
+    }
+
+    public void setWatchedMovies(List<DiaryEntry> watchedMovies) {
+        this.watchedMovies = watchedMovies;
+    }
+
+    public List<WatchlistItem> getWatchlist() {
+        return watchlist;
+    }
+
+    public void setWatchlist(List<WatchlistItem> watchlist) {
+        this.watchlist = watchlist;
     }
 }

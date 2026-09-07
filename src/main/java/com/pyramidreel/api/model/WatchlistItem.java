@@ -2,16 +2,10 @@ package com.pyramidreel.api.model;
 
 import com.pyramidreel.api.model.user.User;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
 public class WatchlistItem {
 
     @Id
@@ -29,9 +23,44 @@ public class WatchlistItem {
     @Column(name = "date_added")
     private LocalDateTime dateAdded;
 
+    protected WatchlistItem() {
+    }
+
     public WatchlistItem(User user, Movie movie) {
         this.user = user;
         this.movie = movie;
         this.dateAdded = LocalDateTime.now();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
+    }
+
+    public LocalDateTime getDateAdded() {
+        return dateAdded;
+    }
+
+    public void setDateAdded(LocalDateTime dateAdded) {
+        this.dateAdded = dateAdded;
     }
 }
