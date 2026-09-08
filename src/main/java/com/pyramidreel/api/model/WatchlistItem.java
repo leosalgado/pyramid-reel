@@ -20,8 +20,8 @@ public class WatchlistItem {
     @JoinColumn(name = "movie_id")
     private Movie movie;
 
-    @Column(name = "date_added")
-    private LocalDateTime dateAdded;
+    @Column(name = "added_at", nullable = false)
+    private LocalDateTime addedAt;
 
     protected WatchlistItem() {
     }
@@ -29,7 +29,7 @@ public class WatchlistItem {
     public WatchlistItem(User user, Movie movie) {
         this.user = user;
         this.movie = movie;
-        this.dateAdded = LocalDateTime.now();
+        this.addedAt = LocalDateTime.now();
     }
 
     public Long getId() {
@@ -56,11 +56,11 @@ public class WatchlistItem {
         this.movie = movie;
     }
 
-    public LocalDateTime getDateAdded() {
-        return dateAdded;
+    public LocalDateTime getAddedAt() {
+        return addedAt;
     }
 
-    public void setDateAdded(LocalDateTime dateAdded) {
-        this.dateAdded = dateAdded;
+    public void setAddedAt(LocalDateTime addedAt) {
+        this.addedAt = addedAt;
     }
 }
